@@ -75,8 +75,6 @@ define(['geom'], function(geom) {
             trace[attr] = traceAttributes[attr];
         }
 
-
-
         config = {
             displayModeBar: false,
             staticPlot: true

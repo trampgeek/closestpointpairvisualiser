@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="./closestpointpair.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-    <script src="https://unpkg.com/v-tooltip"></script>
     <title>Closest point pair visualiser</title>
 
 </head>
@@ -21,10 +20,16 @@
            algorithm for the closest point pair problem in computational
            geometry.</p>
         <div>
-            <label class="file" v-tooltip.right="'Reload point set from a file. File must be a sequence of unique x y integer pairs in the range [0, 100], preferably whitespace separated though all non-numeric characters are ignored'" for="file-input">Upload points
+            <label class="file" for="file-input">Upload points
                 <input id="file-input" type='file' ref='file' v-on:change="upload"/>
             </label>
+            <a href="#" @click="togglefileuploadhelp=!togglefileuploadhelp">{{ togglefileuploadhelp ? 'Hide' : 'Show' }} file upload help</a>
             <br>
+            <div  v-show="togglefileuploadhelp">
+            <p>Reload point set from a file. File must be a sequence of unique x y integer pairs in the range [0, 100], preferably whitespace separated though all non-numeric characters are ignored.
+            </div>
+
+
 
             <button type="button" class="btn btn-primary" v-on:click="clear">Clear</button>
             <button type="button" class="btn btn-primary"

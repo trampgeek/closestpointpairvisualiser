@@ -35,7 +35,7 @@ require(["geom", "plotter", "linesweeper"], function (geom, plotter, linesweeper
     for (var i=0; i < flippedPoints.length; i++) {
         points.push([flippedPoints[i][0] / 4.0, 101 - flippedPoints[i][1] / 4.0]);
     }
-    Vue.use(VTooltip);
+
     var app = new Vue({
         el: '#app',
 
@@ -44,7 +44,8 @@ require(["geom", "plotter", "linesweeper"], function (geom, plotter, linesweeper
             countString: "5",
             states: [],
             currentStateIndex: 0,
-            stateIndexString: '0'
+            stateIndexString: '0',
+            togglefileuploadhelp: false,
         },
 
         mounted: function() {
