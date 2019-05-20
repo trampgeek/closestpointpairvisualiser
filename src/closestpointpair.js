@@ -27,6 +27,8 @@ require(["geom", "plotter", "linesweeper"], function (geom, plotter, linesweeper
     const FRONTIER_POINT_STYLE = {color: 'orange', size: 15, name: 'Current point'};
     const ZONE_LINE_STYLE = {color: 'yellow', 'width': 2, name: 'Zone of interest'};
     const FRONTIER_SET_STYLE = {color: 'green', size: 15, line: {color: 'orange', width: 2}, name: 'Frontier set'};
+    const SHOW_ZONE = true;
+    const HIGHLIGHT_FRONTIER_POINTS = true;
 
     // Data here is read from Mukundan's slide with y vertically down. Need to scale and flip.
     var flippedPoints = [[30, 153], [65, 233], [145, 312], [213, 281], [204, 163], [236, 82], [247, 164], [389, 273]];
@@ -87,6 +89,10 @@ require(["geom", "plotter", "linesweeper"], function (geom, plotter, linesweeper
                 rdr.readAsText(file);
             },
 
+            resetfile: function(event) {
+                this.$refs.file.value = '';
+            },
+
             clear: function() {
                 this.points = [];
                 this.states = [];
@@ -140,15 +146,19 @@ require(["geom", "plotter", "linesweeper"], function (geom, plotter, linesweeper
                 if (this.states.length > 0) {
                     state = this.states[this.currentStateIndex];
                     if (state.frontierPoint) {
-                        plotter.plot(state.frontier, 'markers', {marker: FRONTIER_SET_STYLE});
+                        if (HIGHLIGHT_FRONTIER_POINTS) {
+                            plotter.plot(state.frontier, 'markers', {marker: FRONTIER_SET_STYLE});
+                        }
                         p = state.frontierPoint;
                         d = state.d;
                         plotter.plot(state.closestPair, 'lines+markers', {marker: CLOSEST_POINTS_STYLE, line: CLOSEST_POINTS_LINE_STYLE});
-                        plotter.plot([[p.x - d, p.y - d],
+                        if (SHOW_ZONE) {
+                            plotter.plot([[p.x - d, p.y - d],
                                       [p.x, p.y - d],
                                       [p.x, p.y + d],
                                       [p.x - d, p.y + d],
                                       [p.x - d, p.y - d]], 'lines', {line: ZONE_LINE_STYLE}); // Zone of interest
+                        }
                         plotter.plot([p], 'markers', {marker: FRONTIER_POINT_STYLE});
                         plotter.plot([[p.x, 0], [p.x, 100]], 'lines', {line: FRONTIER_LINE_STYLE});
                         plotter.plot([[p.x - d, 0], [p.x - d, 100]], 'lines', {line: BACKIER_LINE_STYLE});
